@@ -17,6 +17,10 @@
     "protractor": "^4.0.14",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "request": "^2.79.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
   }
 }

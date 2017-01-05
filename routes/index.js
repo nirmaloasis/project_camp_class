@@ -1,4 +1,5 @@
 var express = require('express');
+var request = require('request');
 var router = express.Router();
 var Agent = require("../models/agent_query")
 var username;
@@ -8,6 +9,18 @@ router.get('/', function(req, res, next) {
   res.render('index.html');
 });
 router.post('/login',(req,res) =>{
+//   var o = {};
+//   o.url = "http://localhost:3000/ ";
+//   o.method = "GET";
+//   o.json = true;
+// console.log("res:", res);
+//
+//   request(o, (err, rsp, body)=>{
+//     console.log('body is----' , body);
+//   });
+
+
+//<td><p class="indent"></p><label>password:</label><label><b>{element.password_carrier.replace(/[a-zA-Z0-9]/g,"*").replace(/[^a-zA-Z0-9]/g,'*')}</b></td><td><p class="indent"></p><EditComponet result={setResult}  carrier = {element.carrier} ref="EditComponet"/></td>
   var obj = {}
   username = req.body.username
   var password = req.body.password
@@ -24,11 +37,7 @@ router.post('/login',(req,res) =>{
    }
   })
 })
-
 router.get('/dashboard',function(req,res){
-  console.log("comming");
-
-
   Agent.findByName(username,function(err,data){
       console.log('entering in fuction');
     if(!data[0].flag){
@@ -42,13 +51,21 @@ router.get('/dashboard',function(req,res){
                 })
 
           })
+          Agent.fetchCredential(username,function(err,credential){
+
+            res.json(credential);
+            //  console.log('credential is-------------',credential);
+          })
         })
       })
       }
+      else{
       Agent.fetchCredential(username,function(err,credential){
 
         res.json(credential);
+        //  console.log('credential is-------------',credential);
       })
+    }
 
     })
 })
@@ -59,7 +76,7 @@ router.post('/add',(req,res) =>{
   var carrier = req.body.carrier
   console.log("     haaahhehehehhheheheehheeh     ",AgentUsername,password, carrier);
   Agent.addCredential(AgentUsername,password,carrier,username, function(err, data){
-     
+    res.json({})
   })
 })
 
